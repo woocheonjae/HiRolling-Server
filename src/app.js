@@ -3,7 +3,9 @@ import expressApp from "./loaders/index.js";
 import Logger from "./loaders/logger.js";
 import express from "express";
 
-// 서버 설정
+/*
+ * 서버 설정
+ */
 async function startServer() {
   const app = express();
 
