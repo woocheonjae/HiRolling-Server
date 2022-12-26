@@ -1,8 +1,10 @@
 import Sequelize from "sequelize";
 
 const personalRollingPaper = class PersonalRollingPaper extends Sequelize.Model {
+  // 테이블에 대한 설정
   static init(sequelize) {
     return super.init(
+      // 컬럼에 대한 설정
       {
         personalRollingPaperId: {
           type: Sequelize.UUID,
@@ -13,7 +15,6 @@ const personalRollingPaper = class PersonalRollingPaper extends Sequelize.Model 
         title: {
           type: Sequelize.STRING(40),
           allowNull: true,
-          unique: false,
         },
         exportUrl: {
           type: Sequelize.STRING(200),
@@ -22,9 +23,9 @@ const personalRollingPaper = class PersonalRollingPaper extends Sequelize.Model 
         publicType: {
           type: Sequelize.BOOLEAN(true),
           allowNull: false,
-          unique: false,
         },
       },
+      // 테이블에 대한 설정
       {
         sequelize,
         modelName: "PersonalRollingPaper",
@@ -38,6 +39,7 @@ const personalRollingPaper = class PersonalRollingPaper extends Sequelize.Model 
     );
   }
 
+  // 관계에 대한 설정
   static associate(db) {
     // PersonalRollingPaper(1) : User(1)
     db.PersonalRollingPaper.belongsTo(db.User, {

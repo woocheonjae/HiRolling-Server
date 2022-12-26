@@ -4,8 +4,8 @@ const group = class Group extends Sequelize.Model {
   //테이블에 대한 설정
   static init(sequelize) {
     return super.init(
+      //컬럼에 대한 설정
       {
-        //컬럼에 대한 설정
         groupId: {
           type: Sequelize.UUID,
           defaultValue: Sequelize.UUIDV4,
@@ -13,7 +13,7 @@ const group = class Group extends Sequelize.Model {
         },
         groupName: {
           type: Sequelize.STRING(40),
-          allowNull: true,
+          allowNull: false,
         },
         inviteUrl: {
           type: Sequelize.STRING(200),
@@ -25,8 +25,8 @@ const group = class Group extends Sequelize.Model {
           defaultValue: "default.jpg",
         },
       },
+      //테이블에 대한 설정
       {
-        //테이블에 대한 설정
         sequelize,
         timestamps: true,
         underscored: true,
@@ -38,6 +38,7 @@ const group = class Group extends Sequelize.Model {
       }
     );
   }
+
   // 관계에 대한 설정
   static associate(db) {
     // Group(1) : User(1)

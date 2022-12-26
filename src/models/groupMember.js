@@ -4,8 +4,8 @@ const groupMember = class GroupMember extends Sequelize.Model {
   // 테이블에 대한 설정
   static init(sequelize) {
     return super.init(
+      //컬럼에 대한 설정
       {
-        //컬럼에 대한 설정
         groupMemberId: {
           type: Sequelize.UUID,
           defaultValue: Sequelize.UUIDV4,
@@ -13,8 +13,8 @@ const groupMember = class GroupMember extends Sequelize.Model {
           allowNull: false,
         },
       },
+      // 테이블에 대한 설정
       {
-        // 테이블에 대한 설정
         sequelize,
         timestamps: true,
         underscored: true,
@@ -26,6 +26,7 @@ const groupMember = class GroupMember extends Sequelize.Model {
       }
     );
   }
+
   // 관계에 대한 설정
   static associate(db) {
     // GroupMember(1) : User(1)
@@ -40,9 +41,17 @@ const groupMember = class GroupMember extends Sequelize.Model {
       targetKey: "groupId",
     });
 
-    // GroupMember(1) : GroupRollingPaper(1)
+    /*
+     * GroupMember(1) : GroupRollingPaper(1)
+     *
+     * GroupMember 테이블은 GroupRollingPaper 테이블의 PrimaryKey를 외래로 참조하고 있다.
+     * GroupMember(자식 테이블) <-> GroupRollingPaper(부모 테이블)
+     *
+     * 따라서, belongTo로 1:1 관계를 설정
+     * foreignKey를 GroupRollingPaper 테이블의 primaryKey로 지정
+     * targetKey를 GroupRollingPaper 클래스에서 primaryKey로 지정한 groupRollingPaperId로 설정
+     */
     db.GroupMember.belongsTo(db.GroupRollingPaper, {
-      // 1:1 관계에서 belongsTo로 연결하면 GroupMember에 groupRollingPaperId가 들어감
       foreignKey: "group_rolling_paper_id",
       targetKey: "groupRollingPaperId",
     });

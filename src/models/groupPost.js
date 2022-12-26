@@ -4,8 +4,8 @@ const groupPost = class GroupPost extends Sequelize.Model {
   // 테이블에 대한 설정
   static init(sequelize) {
     return super.init(
+      // 컬럼에 대한 설정
       {
-        // 컬럼에 대한 설정
         groupPostId: {
           type: Sequelize.UUID,
           defaultValue: Sequelize.UUIDV4,
@@ -20,10 +20,10 @@ const groupPost = class GroupPost extends Sequelize.Model {
           type: Sequelize.STRING(40),
           allowNull: true,
           defaultValue: null,
-          comment: "친구,동료,애인,가족",
+          comment: "친구, 동료, 애인, 가족",
         },
         postColor: {
-          type: Sequelize.STRING(10),
+          type: Sequelize.STRING(40),
           allowNull: true,
         },
         emojiType: {
@@ -31,8 +31,8 @@ const groupPost = class GroupPost extends Sequelize.Model {
           allowNull: true,
         },
       },
+      // 테이블에 대한 설정
       {
-        // 테이블에 대한 설정
         sequelize,
         timestamps: true,
         underscored: true,
@@ -45,6 +45,7 @@ const groupPost = class GroupPost extends Sequelize.Model {
     );
   }
 
+  // 관계에 대한 설정
   static associate(db) {
     // GroupPost(1) : User(1)
     db.GroupPost.belongsTo(db.User, {

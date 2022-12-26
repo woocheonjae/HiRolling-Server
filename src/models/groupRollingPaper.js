@@ -4,8 +4,8 @@ const groupRollingPaper = class GroupRollingPaper extends Sequelize.Model {
   //테이블에 대한  설정
   static init(sequelize) {
     return super.init(
+      //컬럼에 대한 설정
       {
-        //컬럼에 대한 설정
         groupRollingPaperId: {
           type: Sequelize.UUID,
           defaultValue: Sequelize.UUIDV4,
@@ -17,8 +17,8 @@ const groupRollingPaper = class GroupRollingPaper extends Sequelize.Model {
           allowNull: true,
         },
       },
+      //테이블에 대한 설정
       {
-        //테이블에 대한 설정
         sequelize,
         timestamps: true,
         underscored: true,
@@ -39,7 +39,16 @@ const groupRollingPaper = class GroupRollingPaper extends Sequelize.Model {
       sourceKey: "groupRollingPaperId",
     });
 
-    // GroupRollingPaper(1) : groupMember(1)
+    /*
+     * GroupRollingPaper(1) : GroupMember(1)
+     *
+     * GroupRollingPaper 테이블의 PrimaryKey를 GroupMember 테이블이 외래로 참조하고 있다.
+     * GroupRollingPaper(부모 테이블) <-> GroupMember(자식 테이블)
+     *
+     * 따라서, hasOne으로 1:1 관계를 설정
+     * foreignKey를 GroupRollingPaper 테이블의 primaryKey로 지정
+     * sourceKey를 GroupRollingPaper 클래스에서 primaryKey로 지정한 groupRollingPaperId로 설정
+     */
     db.GroupRollingPaper.hasOne(db.GroupMember, {
       foreignKey: "group_rolling_paper_id",
       sourceKey: "groupRollingPaperId",

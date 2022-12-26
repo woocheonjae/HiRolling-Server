@@ -4,8 +4,8 @@ const personalPost = class PersonalPost extends Sequelize.Model {
   // 테이블에 대한 설정
   static init(sequelize) {
     return super.init(
+      // 칼럼에 대한 설정
       {
-        // 칼럼에 대한 설정
         personalPostId: {
           type: Sequelize.UUID,
           defaultValue: Sequelize.UUIDV4,
@@ -19,9 +19,10 @@ const personalPost = class PersonalPost extends Sequelize.Model {
         anonymousType: {
           type: Sequelize.STRING(40),
           allowNull: true,
+          comment: "친구, 동료, 애인, 가족",
         },
         postColor: {
-          type: Sequelize.STRING(10),
+          type: Sequelize.STRING(40),
           allowNull: false,
         },
         nonMemberPassword: {
@@ -33,8 +34,8 @@ const personalPost = class PersonalPost extends Sequelize.Model {
           allowNull: true,
         },
       },
+      // 테이블에 대한 설정
       {
-        // 테이블에 대한 설정
         sequelize,
         timestamps: true,
         underscored: true,

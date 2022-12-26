@@ -4,8 +4,8 @@ const user = class User extends Sequelize.Model {
   // 테이블에 대한 설정
   static init(sequelize) {
     return super.init(
+      // 컬럼에 대한 설정
       {
-        // 컬럼에 대한 설정
         userId: {
           type: Sequelize.UUID,
           defaultValue: Sequelize.UUIDV4,
@@ -35,8 +35,8 @@ const user = class User extends Sequelize.Model {
           allowNull: true,
         },
       },
+      // 테이블에 대한 설정
       {
-        // 테이블에 대한 설정
         sequelize,
         timestamps: true,
         underscored: true,
@@ -49,6 +49,7 @@ const user = class User extends Sequelize.Model {
     );
   }
 
+  // 관계에 대한 설정
   static associate(db) {
     // User(1) : PersonalRollingPaper(N)
     db.User.hasMany(db.PersonalRollingPaper, {

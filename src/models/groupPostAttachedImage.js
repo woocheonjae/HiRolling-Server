@@ -1,8 +1,10 @@
 import Sequelize from "sequelize";
 
 const groupPostAttachedImage = class GroupPostAttachedImage extends Sequelize.Model {
+  // 테이블에 대한 설정
   static init(sequelize) {
     return super.init(
+      // 컬럼에 대한 설정
       {
         groupPostImageId: {
           type: Sequelize.UUID,
@@ -15,18 +17,21 @@ const groupPostAttachedImage = class GroupPostAttachedImage extends Sequelize.Mo
           allowNull: true,
         },
       },
+      // 테이블에 대한 설정
       {
         sequelize,
         timestamps: true,
         paranoid: true,
         underscored: true,
         modelName: "GroupPostAttachedImage",
-        tableName: "groupPostAttachedImage",
+        tableName: "group_post_attached_image",
         charset: "utf8mb4",
         collate: "utf8mb4_general_ci",
       }
     );
   }
+
+  // 관계에 대한 설정
   static associate(db) {
     // GroupPostAttachedImage(1) : GroupPost(1)
     db.GroupPostAttachedImage.belongsTo(db.GroupPost, {
