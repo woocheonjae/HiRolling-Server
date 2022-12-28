@@ -7,6 +7,7 @@ import cors from "cors";
 import MySQLStore from "express-mysql-session";
 import session from "express-session";
 import morgan from "morgan";
+import nunjucks from "nunjucks";
 
 const expressLoader = (app) => {
   app.set("port", config.port);
@@ -24,6 +25,13 @@ const expressLoader = (app) => {
   // Useful if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
   // It shows the real origin IP in the heroku or Cloudwatch logs
   app.enable("trust proxy");
+
+  // View Template
+  app.set("view engine", "html");
+  nunjucks.configure("src/views", {
+    express: app,
+    watch: true,
+  });
 
   // 로그 설정
   const httpLogStream = {
