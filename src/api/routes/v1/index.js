@@ -1,4 +1,5 @@
 import auth from "./auth.js";
+import individual from "./individual.js";
 import { Router } from "express";
 
 /*
@@ -12,6 +13,7 @@ export default () => {
   const app = Router();
 
   auth(app);
+  individual(app);
 
   return app;
 };
