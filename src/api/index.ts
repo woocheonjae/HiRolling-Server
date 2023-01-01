@@ -1,5 +1,6 @@
-import v1 from "./routes/v1/index.js";
 import { Router } from "express";
+
+import v1 from "./routes/v1/index";
 
 /*
  * API Version: v1

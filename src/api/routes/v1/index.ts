@@ -1,6 +1,7 @@
-import auth from "./auth.js";
-import individual from "./individual.js";
 import { Router } from "express";
+
+import auth from "./auth";
+import individual from "./individual";
 
 /*
  * API Version: v1
