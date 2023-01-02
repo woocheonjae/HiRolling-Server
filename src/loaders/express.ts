@@ -1,22 +1,24 @@
-import routes from "../api/index.js";
-import config from "../config/config.js";
-import Logger from "./logger.js";
+import routes from "@/api/index";
+import config from "@/config/config";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import MySQLStore from "express-mysql-session";
+import express from "express";
+import expressMySQLSession from "express-mysql-session";
 import session from "express-session";
 import morgan from "morgan";
 import nunjucks from "nunjucks";
 
-const expressLoader = (app) => {
-  app.set("port", config.port);
+import Logger from "./logger";
+
+export default ({ app }: { app: express.Application }) => {
+  // app.set("port", config.port);
 
   /*
    * Health Check endpoints
    */
   app.get("/status", (req, res) => {
-    res.status(200).end();
+    res.status(200).json({ test: "good" }).end();
   });
   app.head("/status", (req, res) => {
     res.status(200).end();
@@ -41,14 +43,15 @@ const expressLoader = (app) => {
   };
   app.use(morgan("dev", { stream: httpLogStream }));
 
+  const MySQLStore = expressMySQLSession(session as any); // TODO: any 고쳐야 함
   // 세션 설정
   app.use(
     session({
       secret: config.cookieSecret,
       resave: false,
       saveUninitialized: true,
-      store: new MySQLStore(config.sessionOptions),
-    })
+      store: new MySQLStore(config.expressSession as any), // TODO: any 고쳐야 함
+    }),
   );
 
   // Enable Cross Origin Resource Sharing to all origins by default
@@ -60,7 +63,7 @@ const expressLoader = (app) => {
     bodyParser.urlencoded({
       // to support URL-encoded bodies
       extended: true,
-    })
+    }),
   );
 
   // 쿠키 설정
@@ -72,7 +75,7 @@ const expressLoader = (app) => {
   // ! 404 에러가 발생한 경우 처리
   app.use((req, res, next) => {
     const err = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
-    err.status = 404;
+    err["status"] = 404;
     next(err);
   });
 
@@ -84,5 +87,3 @@ const expressLoader = (app) => {
     res.render("error");
   });
 };
-
-export default expressLoader;

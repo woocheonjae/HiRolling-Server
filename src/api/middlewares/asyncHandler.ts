@@ -1,7 +1,8 @@
-import Logger from "../../loaders/logger.js";
+import Logger from "@/loaders/logger";
+import { Request, Response, NextFunction } from "express";
 
 const asyncHandler = (requestHandler) => {
-  return async (req, res, next) => {
+  return async (req: Request, res: Response, next: NextFunction) => {
     try {
       await requestHandler(req, res);
     } catch (error) {

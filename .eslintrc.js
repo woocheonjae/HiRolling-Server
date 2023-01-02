@@ -1,13 +1,18 @@
 // .eslintrc.js
-export default {
+module.exports = {
   // 현재 eslintrc 파일을 기준으로 ESLint 규칙을 적용
   root: true,
 
   // 추가적인 규칙들을 적용
-  extends: ["eslint:recommended", "prettier", "plugin:prettier/recommended"],
+  extends: [
+    "eslint:recommended",
+    "prettier",
+    "plugin:prettier/recommended",
+    "plugin:@typescript-eslint/recommended",
+  ],
 
   // 코드 정리 플러그인 추가
-  plugins: ["prettier"],
+  plugins: ["prettier", "@typescript-eslint"],
 
   // linter가 파일을 분석할 때, 미리 정의된 전역변수에 무엇이 있는지 명시하는 속성
   env: {
@@ -18,16 +23,22 @@ export default {
     node: true,
   },
 
+  parser: "@typescript-eslint/parser",
+
   parserOptions: {
     ecmaVersion: 6,
     sourceType: "module",
   },
 
   // ESLint가 무시할 디렉토리, 파일을 설정
-  ignorePatterns: ["node_modules/"],
+  ignorePatterns: ["node_modules/", "dist/"],
 
   // 사용자 편의 규칙 추가
   rules: {
+    "@typescript-eslint/explicit-member-accessibility": 0,
+    "@typescript-eslint/explicit-function-return-type": 0,
+    "@typescript-eslint/no-parameter-properties": 0,
+    "@typescript-eslint/interface-name-prefix": 0,
     "prettier/prettier": [
       "error",
       // 아래 규칙들은 개인 선호에 따라 prettier 문법 적용
@@ -42,6 +53,7 @@ export default {
         bracketSpacing: true,
         arrowParens: "always",
         importOrder: ["^@core/(.*)$", "^@server/(.*)$", "^@ui/(.*)$", "^[./]"],
+        importOrderParserPlugins: ["typescript", "decorators-legacy"],
         importOrderSeparation: true,
         importOrderSortSpecifiers: true,
       },

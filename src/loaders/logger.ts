@@ -1,4 +1,4 @@
-import config from "../config/config.js";
+import config from "@/config/config";
 import winston from "winston";
 
 const transports = [];
@@ -9,9 +9,9 @@ if (process.env.NODE_ENV !== "development") {
     new winston.transports.Console({
       format: winston.format.combine(
         winston.format.cli(),
-        winston.format.splat()
+        winston.format.splat(),
       ),
-    })
+    }),
   );
 }
 
@@ -24,7 +24,7 @@ const LoggerInstance = winston.createLogger({
     }),
     winston.format.errors({ stack: true }),
     winston.format.splat(),
-    winston.format.json()
+    winston.format.json(),
   ),
   transports,
 });
