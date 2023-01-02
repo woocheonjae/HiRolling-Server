@@ -3,16 +3,24 @@
   "version": "1.0.0",
   "main": "src/app.ts",
   "scripts": {
+<<<<<<< Updated upstream
     "prestart": "tsc",
     "dev": "nodemon --watch 'src/**/*.ts' --exec ts-node -r tsconfig-paths/register src/app.ts",
     "test": "jest",
     "build": "tsc",
     "start": "node -r ts-node/register/transpile-only -r tsconfig-paths/register dist/app.js"
+=======
+    "start": "nodemon app",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "dev": "nodemon --watch 'src/**/*.ts' --exec ts-node -r tsconfig-paths/register src/app.ts"
+>>>>>>> Stashed changes
   },
   "repository": "https://github.com/woocheonjae/HiRolling-Server.git",
   "author": "Hyyena <sjtxm0320@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@types/bluebird": "^3.5.38",
+    "@types/validator": "^13.7.10",
     "body-parser": "^1.20.1",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.6",
@@ -35,11 +43,15 @@
     "reflect-metadata": "^0.1.13",
     "sequelize": "^6.28.0",
     "sequelize-cli": "^6.5.2",
+<<<<<<< Updated upstream
     "sequelize-cli-typescript": "^3.2.0-c",
+=======
+>>>>>>> Stashed changes
     "sequelize-typescript": "^2.1.5",
     "session-file-store": "^1.5.0",
     "ts-node": "^10.9.1",
     "typedi": "^0.10.0",
+    "typescript": "^4.9.4",
     "uuid": "^9.0.0",
     "winston": "^3.8.2"
   },
@@ -67,9 +79,13 @@
     "nodemon": "^2.0.20",
     "prettier": "^2.8.1",
     "supertest": "^6.3.3",
+<<<<<<< Updated upstream
     "ts-jest": "^29.0.3",
     "tsconfig-paths": "^4.1.1",
     "typescript": "^4.9.4"
+=======
+    "tsconfig-paths": "^4.1.1"
+>>>>>>> Stashed changes
   },
   "lint-staged": {
     "*.ts": [
@@ -82,5 +98,41 @@
       "pre-commit": "lint-staged",
       "pre-push": "./husky/pre-push"
     }
-  }
+  },
+  "compilerOptions": {
+    "target": "es2017",
+    "lib": [
+      "es2017",
+      "esnext.asynciterable"
+    ],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/types"
+    ],
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "pretty": true,
+    "sourceMap": true,
+    "outDir": "./build",
+    "allowJs": true,
+    "noEmit": false,
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    }
+  },
+  "include": [
+    "./src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "tests"
+  ]
 }

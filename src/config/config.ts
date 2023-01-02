@@ -41,7 +41,7 @@ export default {
   /*
    * 데이터베이스 이름
    */
-  databaseName: env.DATABASE,
+  databaseName: env.DATABASE_DEV,
 
   /*
    * 데이터베이스 종류
@@ -85,7 +85,7 @@ export default {
     port: env.DB_PORT,
     user: env.DB_USERNAME,
     password: env.DB_PASSWORD,
-    database: env.DATABASE,
+    database: env.DATABASE_DEV,
   },
 
   /*

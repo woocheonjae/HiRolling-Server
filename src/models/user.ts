@@ -12,6 +12,10 @@ import {
 } from "sequelize-typescript";
 
 import PersonalRollingPaper from "./personalRollingPaper";
+import Group from "./group";
+import GroupMember from "./groupMember";
+import GroupPost from "./groupPost";
+import PersonalPost from "./personalPost";
 
 enum LoginType {
   KAKAO = "KAKAO",
@@ -67,4 +71,20 @@ export default class User extends Model {
   // User(1) : PersonalRollingPaper(N)
   @HasMany(() => PersonalRollingPaper)
   personalRollingPapers: PersonalRollingPaper[];
+
+  // User(1) : Group(N)
+  @HasMany(() => Group)
+  Group: Group[];
+
+  // User(1) : GroupMember(N)
+  @HasMany(() => GroupMember)
+  GroupMember: GroupMember[];
+
+  // User(1) : GroupPost(N)
+  @HasMany(() => GroupPost)
+  GroupPost: GroupPost[];
+
+  // User(1) : PersonalPost(N)
+  @HasMany(() => PersonalPost)
+  PersonalPost: PersonalPost[];
 }

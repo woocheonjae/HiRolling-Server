@@ -6,12 +6,14 @@ import {
   DataType,
   Default,
   ForeignKey,
+  HasMany,
   Model,
   PrimaryKey,
   Table,
 } from "sequelize-typescript";
 
 import User from "./user";
+import PersonalPost from "./personalPost";
 
 // 테이블에 대한 설정
 @Table({
@@ -57,4 +59,8 @@ export default class PersonalRollingPaper extends Model {
   // PersonalRollingPaper(1) : User(1)
   @BelongsTo(() => User)
   user: User;
+
+  // PersonalRollingPaper(1) : PersonalPost(N)
+  @HasMany(() => PersonalPost)
+  PersonalPost: PersonalPost[];
 }
