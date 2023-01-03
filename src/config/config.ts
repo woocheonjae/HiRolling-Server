@@ -41,7 +41,7 @@ export default {
   /*
    * 데이터베이스 이름
    */
-  databaseName: env.DATABASE,
+  databaseName: env.DATABASE_DEV,
 
   /*
    * 데이터베이스 종류
