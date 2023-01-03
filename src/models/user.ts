@@ -74,17 +74,17 @@ export default class User extends Model {
 
   // User(1) : Group(N)
   @HasMany(() => Group)
-  Group: Group[];
+  Groups: Group[];
 
   // User(1) : GroupMember(N)
   @HasMany(() => GroupMember)
-  GroupMember: GroupMember[];
+  GroupMembers: GroupMember[];
 
   // User(1) : GroupPost(N)
   @HasMany(() => GroupPost)
-  GroupPost: GroupPost[];
+  GroupPosts: GroupPost[];
 
   // User(1) : PersonalPost(N)
   @HasMany(() => PersonalPost)
-  PersonalPost: PersonalPost[];
+  PersonalPosts: PersonalPost[];
 }
