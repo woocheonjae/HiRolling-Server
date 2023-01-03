@@ -3,7 +3,7 @@ import Logger from "./logger";
 import sequelize from "./sequelize";
 
 export default async ({ expressApp }) => {
-  sequelize
+  await sequelize
     .sync({ force: false })
     .then(() => {
       console.log("🎉 DB Connected!");

@@ -85,7 +85,7 @@ export default {
     port: env.DB_PORT,
     user: env.DB_USERNAME,
     password: env.DB_PASSWORD,
-    database: env.DATABASE,
+    database: env.DATABASE_DEV,
   },
 
   /*
