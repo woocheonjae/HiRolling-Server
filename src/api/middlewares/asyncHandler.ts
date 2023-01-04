@@ -6,7 +6,7 @@ const asyncHandler = (requestHandler) => {
     try {
       await requestHandler(req, res);
     } catch (error) {
-      Logger.error("🔥 Error attaching user to req: %o", error);
+      Logger.error("🔥 Error(request): %o", error);
       next(error);
     }
   };
