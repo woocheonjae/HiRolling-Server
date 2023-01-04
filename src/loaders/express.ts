@@ -12,7 +12,7 @@ import nunjucks from "nunjucks";
 import Logger from "./logger";
 
 export default ({ app }: { app: express.Application }) => {
-  // app.set("port", config.port);
+  app.set("port", config.port);
 
   /*
    * Health Check endpoints

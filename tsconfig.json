@@ -24,7 +24,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
 
-    /*
+    /**
      * TODO: Refactoring
      * 아래 세 가지 옵션 true로 바꾸면 파일들 전부 시뻘개짐 컄
      */
@@ -35,7 +35,7 @@
     "strictFunctionTypes": true, // 함수 파라미터 타입 체크 강하게
     "alwaysStrict": true, // 자바스크립트 "use strict" 모드 켜기
 
-    /*
+    /**
      * TODO: Refactoring
      * 아래 두 가지 옵션 true로 바꾸면 빌드 에러 남 컄
      */
