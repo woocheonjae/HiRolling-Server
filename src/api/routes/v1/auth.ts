@@ -22,7 +22,7 @@ export default (app: Router) => {
       return res.status(201).json({ result: user });
     }),
   );
-
+  
   route.get(
     "/kakao",
     asyncHandler(async (req: Request, res: Response, next: NextFunction) => {

@@ -50,7 +50,7 @@ export default class PersonalPost extends Model {
   public personal_rolling_paper_id!: string;
 
   @ForeignKey(() => User)
-  @AllowNull(false)
+  @AllowNull(true)
   @Default(UUIDV4)
   @Column(DataType.UUID)
   public user_id!: string;
