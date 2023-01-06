@@ -3,8 +3,6 @@ import asyncHandler from "@/api/middlewares/asyncHandler";
 import { Router, Request, Response, NextFunction } from "express";
 import logger from "winston";
 import PersonalPost from "@/models/personalPost";
-import PoolCluster from "mysql2/typings/mysql/lib/PoolCluster";
-import bodyParser from "body-parser";
 import PersonalRollingPaper from "@/models/personalRollingPaper";
 
 import PersonalService from "@/services/individual";
@@ -12,7 +10,6 @@ import { Container } from "typedi";
 import { PersonalPostInputDTO } from "@/interfaces/PersonalPost";
 const route = Router();
 
-//
 export default (app: Router) => {
   app.use("/individual", route);
 
@@ -58,9 +55,9 @@ export default (app: Router) => {
   // ! GET, req 참고하세요!
   // 개인 롤링포스트 디테일 조회
   route.get(
-    "/posts/:personalPostId",
+    "/posts/:postid",
     asyncHandler(async (req: Request<PersonalPostInputDTO>, res: Response, next: NextFunction) => {
-      logger.debug(req.body);
+      logger.debug(req.params);
       const personalServiceInstance = Container.get(PersonalService);
       const { personalPost } = await personalServiceInstance.viewDetailPost(
         req.params as PersonalPostInputDTO

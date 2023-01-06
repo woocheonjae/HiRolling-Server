@@ -1,5 +1,4 @@
 import { Service, Inject } from "typedi";
-import jwt from "jsonwebtoken";
 import config from "@/config/config";
 import { PersonalPost, PersonalPostInputDTO } from "@/interfaces/PersonalPost";
 import { Model } from "sequelize-typescript";
