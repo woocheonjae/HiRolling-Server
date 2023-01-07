@@ -9,6 +9,8 @@ module.exports = {
     "prettier",
     "plugin:prettier/recommended",
     "plugin:@typescript-eslint/recommended",
+    "plugin:import/typescript",
+    "plugin:import/recommended",
   ],
 
   // 코드 정리 플러그인 추가
@@ -30,6 +32,16 @@ module.exports = {
     sourceType: "module",
   },
 
+  settings: {
+    "import/resolver": {
+      node: {},
+      typescript: {
+        directory: "./src",
+      },
+    },
+    "import/parsers": { "@typescript-eslint/parser": [".ts", ".tsx"] },
+  },
+
   // ESLint가 무시할 디렉토리, 파일을 설정
   ignorePatterns: ["node_modules/", "dist/"],
 
@@ -39,6 +51,19 @@ module.exports = {
     "@typescript-eslint/explicit-function-return-type": 0,
     "@typescript-eslint/no-parameter-properties": 0,
     "@typescript-eslint/interface-name-prefix": 0,
+    "import/no-unresolved": "off",
+    "import/export": "off",
+    "import/order": [
+      "error",
+      {
+        groups: ["builtin", "external", "parent", "sibling", "index"],
+        alphabetize: {
+          order: "asc",
+          caseInsensitive: true,
+        },
+        "newlines-between": "always",
+      },
+    ],
     "prettier/prettier": [
       "error",
       // 아래 규칙들은 개인 선호에 따라 prettier 문법 적용
@@ -52,7 +77,7 @@ module.exports = {
         printWidth: 80,
         bracketSpacing: true,
         arrowParens: "always",
-        importOrder: ["^@core/(.*)$", "^@server/(.*)$", "^@ui/(.*)$", "^[./]"],
+        importOrder: ["^@/(.*)$", "^[./]"],
         importOrderParserPlugins: ["typescript", "decorators-legacy"],
         importOrderSeparation: true,
         importOrderSortSpecifiers: true,
