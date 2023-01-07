@@ -68,7 +68,6 @@ export default (app: Router) => {
     }),
   );
 
-  // TODO: 의존성 주입
   // 개인 롤링페이퍼 포스트 생성
   route.post(
     "/posts",
