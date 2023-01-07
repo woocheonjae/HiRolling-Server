@@ -83,10 +83,7 @@ export default (app: Router) => {
       );
 
       return res.status(201).json({ result: personalPost });
-      // 페이퍼 페이지로 이동
-      res.redirect("/papers/" + req.body.personal_rolling_paper_id);
 
-      return res.status(201).json({ result: true });
     }),
   );
 };
