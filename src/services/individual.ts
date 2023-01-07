@@ -23,15 +23,13 @@ export default class PersonalService {
     try {
       const personalPostId = personalPostInputDTO.personalPostId;
 
-      const personalPostRecord = await this.personalPostModel.findOne({
+      const personalPost = await this.personalPostModel.findOne({
         where: { personal_post_id: personalPostId },
       });
 
-      if (!personalPostRecord) {
+      if (!personalPost) {
         throw new Error("Post  doesn't exist");
       }
-
-      const personalPost = personalPostRecord;
 
       return { personalPost };
     } catch (error) {
