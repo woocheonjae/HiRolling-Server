@@ -45,15 +45,13 @@ export default class PersonalService {
     personalPostDTO: PersonalPostDTO,
   ): Promise<{ personalPost: PersonalPost }> {
     try {
-      const personalPostRecord = await this.personalPostModel.create(
+      const personalPost = await this.personalPostModel.create(
         personalPostDTO,
       );
 
-      if (!personalPostRecord) {
+      if (!personalPost) {
         throw new Error("Unable to create post");
       }
-
-      const personalPost = personalPostRecord;
 
       return { personalPost };
     } catch (error) {
