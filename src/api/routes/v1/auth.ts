@@ -1,9 +1,10 @@
-import asyncHandler from "@/api/middlewares/asyncHandler";
 import { Request, Response, Router, NextFunction } from "express";
-import logger from "winston";
-import AuthService from "@/services/auth";
 import { Container } from "typedi";
+import logger from "winston";
+
+import asyncHandler from "@/api/middlewares/asyncHandler";
 import { UserInputDTO } from "@/interfaces/User";
+import AuthService from "@/services/auth";
 
 const route = Router();
 
