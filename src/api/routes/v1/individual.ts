@@ -7,7 +7,12 @@ import PersonalRollingPaper from "@/models/personalRollingPaper";
 
 import PersonalService from "@/services/individual";
 import { Container } from "typedi";
-import { PersonalPostInputDTO } from "@/interfaces/PersonalPost";
+
+import {
+  PersonalPostInputDTO,
+  PersonalPostDTO,
+} from "@/interfaces/PersonalPost";
+
 const route = Router();
 
 export default (app: Router) => {
@@ -18,7 +23,7 @@ export default (app: Router) => {
   route.post(
     "/papers",
     //isLoggedIn,
-    asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    asyncHandler(async (req: Request, res: Response) => {
       logger.debug(req.body);
 
       // 비즈니스 로직을 처리할 service에 req.body를 넘겨주기
@@ -49,47 +54,36 @@ export default (app: Router) => {
         },
       });
       return res.status(200).json(posts);
-    })
+    }),
   );
 
   // ! GET, req 참고하세요!
   // 개인 롤링포스트 디테일 조회
   route.get(
     "/posts/:postid",
-    asyncHandler(async (req: Request<PersonalPostInputDTO>, res: Response, next: NextFunction) => {
+
+    asyncHandler(async (req: Request<PersonalPostInputDTO>, res: Response) => {
       logger.debug(req.params);
       const personalServiceInstance = Container.get(PersonalService);
       const { personalPost } = await personalServiceInstance.viewDetailPost(
-        req.params as PersonalPostInputDTO
+        req.params as PersonalPostInputDTO,
       );
-
-      return res.status(201).json({ result: personalPost });
-    })
+      return res.status(200).json({ result: personalPost });
+    }),
   );
 
-  // TODO: 의존성 주입
   // 개인 롤링페이퍼 포스트 생성
   route.post(
     "/posts",
-    asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    asyncHandler(async (req: Request, res: Response) => {
       logger.debug(req.body);
-      const post = await PersonalPost.create({
-        personal_rolling_paper_id: req.body.pageId,
-        content: req.body.content,
-        img: req.body.url,
-        post_color: req.body.postColor,
-        // Optional
-        //userId:req.user.id,
-        user_id: req.body.id,
-        anonymous_type: req.body.anonymousType,
-        non_member_password: req.body.password,
-      });
-      // 페이퍼 페이지로 이동
-      res.redirect("/papers/" + req.body.pageId);
+      const personalServiceInstance = Container.get(PersonalService);
+      const { personalPost } = await personalServiceInstance.createPost(
+        req.body as PersonalPostDTO,
+      );
 
-      return res.status(201).json({ result: true });
-    })
+      return res.status(201).json({ result: personalPost });
+
+    }),
   );
-
-
 };
