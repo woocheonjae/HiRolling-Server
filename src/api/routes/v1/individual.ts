@@ -7,15 +7,18 @@ import PersonalRollingPaper from "@/models/personalRollingPaper";
 
 import PersonalService from "@/services/individual";
 import { Container } from "typedi";
+
 import {
   PersonalPostInputDTO,
   PersonalPostDTO,
 } from "@/interfaces/PersonalPost";
+
 const route = Router();
 
 export default (app: Router) => {
   app.use("/individual", route);
 
+  
   // 개인 롤링페이퍼 생성
   route.post(
     "/papers",
@@ -28,7 +31,7 @@ export default (app: Router) => {
       //const { paper } = await PersonalRollingPaperService.Signup(paperDTO); // TODO: PersonalRollingPaperService 만들기
 
       return res.status(201).json({ result: true });
-    }),
+    })
   );
 
   // TODO: 의존성 주입
@@ -58,6 +61,7 @@ export default (app: Router) => {
   // 개인 롤링포스트 디테일 조회
   route.get(
     "/posts/:postid",
+
     asyncHandler(async (req: Request<PersonalPostInputDTO>, res: Response) => {
       logger.debug(req.params);
       const personalServiceInstance = Container.get(PersonalService);
