@@ -19,3 +19,12 @@ export interface PersonalPost {
 export interface PersonalPostInputDTO {
   personalPostId: string;
 }
+
+export interface PersonalPostDTO {
+  personal_rolling_paper_id: string;
+  user_id: string | null;
+  content: string;
+  anonymous_type: AnonymousType;
+  post_color: string;
+  non_member_password: string | null;
+}

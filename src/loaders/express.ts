@@ -51,7 +51,7 @@ export default ({ app }: { app: express.Application }) => {
       resave: false,
       saveUninitialized: true,
       store: new MySQLStore(config.expressSession as any), // TODO: any 고쳐야 함
-    })
+    }),
   );
 
   // Enable Cross Origin Resource Sharing to all origins by default
@@ -63,7 +63,7 @@ export default ({ app }: { app: express.Application }) => {
     bodyParser.urlencoded({
       // to support URL-encoded bodies
       extended: true,
-    })
+    }),
   );
 
   // 쿠키 설정

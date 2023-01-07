@@ -59,7 +59,7 @@ export default class PersonalPost extends Model {
   @Column(DataType.TEXT)
   public content!: string;
 
-  @AllowNull(false)
+  @AllowNull(true)
   @Column(DataType.ENUM(...Object.values(AnonymousType)))
   public anonymous_type!: AnonymousType;
 

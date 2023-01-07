@@ -42,7 +42,7 @@ export default class PersonalPostAttachedImage extends Model {
   @AllowNull(true)
   @Default("default.jpg")
   @Column(DataType.STRING(200))
-  public group_post_image!: string;
+  public personal_post_image!: string;
 
   /*
    * 관계에 대한 설정
