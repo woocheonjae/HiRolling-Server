@@ -1,24 +1,22 @@
 // TODO: isLoggedIn 미들웨어 설정
-import asyncHandler from "@/api/middlewares/asyncHandler";
 import { Router, Request, Response, NextFunction } from "express";
-import logger from "winston";
-import PersonalPost from "@/models/personalPost";
-import PersonalRollingPaper from "@/models/personalRollingPaper";
-
-import PersonalService from "@/services/individual";
 import { Container } from "typedi";
+import logger from "winston";
 
+import asyncHandler from "@/api/middlewares/asyncHandler";
 import {
   PersonalPostInputDTO,
   PersonalPostDTO,
 } from "@/interfaces/PersonalPost";
+import PersonalPost from "@/models/personalPost";
+import PersonalRollingPaper from "@/models/personalRollingPaper";
+import PersonalService from "@/services/individual";
 
 const route = Router();
 
 export default (app: Router) => {
   app.use("/individual", route);
 
-  
   // 개인 롤링페이퍼 생성
   route.post(
     "/papers",
@@ -31,7 +29,7 @@ export default (app: Router) => {
       //const { paper } = await PersonalRollingPaperService.Signup(paperDTO); // TODO: PersonalRollingPaperService 만들기
 
       return res.status(201).json({ result: true });
-    })
+    }),
   );
 
   // TODO: 의존성 주입
@@ -83,7 +81,6 @@ export default (app: Router) => {
       );
 
       return res.status(201).json({ result: personalPost });
-
     }),
   );
 };

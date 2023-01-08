@@ -10,11 +10,12 @@ import {
   Table,
   Unique,
 } from "sequelize-typescript";
-import PersonalRollingPaper from "./personalRollingPaper";
+
 import Group from "./group";
 import GroupMember from "./groupMember";
 import GroupPost from "./groupPost";
 import PersonalPost from "./personalPost";
+import PersonalRollingPaper from "./personalRollingPaper";
 
 enum LoginType {
   KAKAO = "KAKAO",
@@ -40,23 +41,29 @@ export default class User extends Model {
   @Default(UUIDV4)
   @Column(DataType.UUID)
   public user_id!: string;
+
   @Unique
   @AllowNull(false)
   @Column(DataType.STRING(40))
   public email!: string;
+
   @AllowNull(true)
   @Column(DataType.STRING(128))
   public password!: string;
+
   @AllowNull(false)
   @Column(DataType.STRING(40))
   public name!: string;
+
   @AllowNull(false)
   @Default("default.jpg")
   @Column(DataType.STRING(200))
   public user_profile_image!: string;
+
   @AllowNull(false)
   @Column(DataType.ENUM(...Object.values(LoginType)))
   public login_type!: LoginType;
+
   /*
    * 관계에 대한 설정
    */

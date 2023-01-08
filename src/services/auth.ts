@@ -1,14 +1,15 @@
-import { Service, Inject } from "typedi";
 import jwt from "jsonwebtoken";
+import { Model } from "sequelize-typescript";
+import { Service, Inject } from "typedi";
+
 import config from "@/config/config";
 import { User, UserInputDTO } from "@/interfaces/User";
-import { Model } from "sequelize-typescript";
 
 @Service()
 export default class AuthService {
   constructor(
     @Inject("userModel") private userModel,
-    @Inject("logger") private logger
+    @Inject("logger") private logger,
   ) {}
 
   /**
@@ -19,17 +20,17 @@ export default class AuthService {
     try {
       console.log(
         "🚀 ~ file: auth.ts:17 ~ AuthService ~ test ~ userModel",
-        this.userModel
+        this.userModel,
       );
       console.log(
         "🚀 ~ file: auth.ts:21 ~ AuthService ~ test ~ userInputDTO",
-        userInputDTO
+        userInputDTO,
       );
 
       const userId = userInputDTO.userId;
       console.log(
         "🚀 ~ file: auth.ts:27 ~ AuthService ~ test ~ userId",
-        userId
+        userId,
       );
 
       const userRecord = await this.userModel.findOne({
