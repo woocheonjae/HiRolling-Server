@@ -1,5 +1,6 @@
-import Logger from "@/loaders/logger";
 import { Request, Response, NextFunction } from "express";
+
+import Logger from "@/loaders/logger";
 
 const asyncHandler = (requestHandler) => {
   return async (req: Request, res: Response, next: NextFunction) => {

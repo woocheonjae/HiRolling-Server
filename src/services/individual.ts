@@ -1,13 +1,12 @@
+import { Model } from "sequelize-typescript";
 import { Service, Inject } from "typedi";
-import config from "@/config/config";
 
+import config from "@/config/config";
 import {
   PersonalPost,
   PersonalPostInputDTO,
   PersonalPostDTO,
 } from "@/interfaces/PersonalPost";
-
-import { Model } from "sequelize-typescript";
 
 @Service()
 export default class PersonalService {
@@ -37,15 +36,13 @@ export default class PersonalService {
       throw error;
     }
   }
-  
+
   // 포스트 생성해주는 함수
   public async createPost(
     personalPostDTO: PersonalPostDTO,
   ): Promise<{ personalPost: PersonalPost }> {
     try {
-      const personalPost = await this.personalPostModel.create(
-        personalPostDTO,
-      );
+      const personalPost = await this.personalPostModel.create(personalPostDTO);
 
       if (!personalPost) {
         throw new Error("Unable to create post");

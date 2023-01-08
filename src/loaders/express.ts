@@ -1,5 +1,3 @@
-import routes from "@/api/index";
-import config from "@/config/config";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -10,6 +8,9 @@ import morgan from "morgan";
 import nunjucks from "nunjucks";
 
 import Logger from "./logger";
+
+import routes from "@/api/index";
+import config from "@/config/config";
 
 export default ({ app }: { app: express.Application }) => {
   app.set("port", config.port);
@@ -51,7 +52,7 @@ export default ({ app }: { app: express.Application }) => {
       resave: false,
       saveUninitialized: true,
       store: new MySQLStore(config.expressSession as any), // TODO: any 고쳐야 함
-    })
+    }),
   );
 
   // Enable Cross Origin Resource Sharing to all origins by default
@@ -63,7 +64,7 @@ export default ({ app }: { app: express.Application }) => {
     bodyParser.urlencoded({
       // to support URL-encoded bodies
       extended: true,
-    })
+    }),
   );
 
   // 쿠키 설정

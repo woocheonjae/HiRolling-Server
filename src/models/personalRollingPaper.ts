@@ -11,8 +11,9 @@ import {
   PrimaryKey,
   Table,
 } from "sequelize-typescript";
-import User from "./user";
+
 import PersonalPost from "./personalPost";
+import User from "./user";
 
 // 테이블에 대한 설정
 @Table({
@@ -33,20 +34,25 @@ export default class PersonalRollingPaper extends Model {
   @Default(UUIDV4)
   @Column(DataType.UUID)
   public personal_rolling_paper_id!: string;
+
   @ForeignKey(() => User)
   @AllowNull(false)
   @Default(UUIDV4)
   @Column(DataType.UUID)
   public user_id!: string;
+
   @AllowNull(true)
   @Column(DataType.STRING(40))
   public title!: string;
-  @AllowNull(false)
+
+  @AllowNull(true)
   @Column(DataType.STRING(200))
   public export_url!: string;
+
   @AllowNull(false)
   @Column(DataType.BOOLEAN)
   public public_type!: boolean;
+
   /*
    * 관계에 대한 설정
    */
