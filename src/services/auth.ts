@@ -8,7 +8,7 @@ import { Model } from "sequelize-typescript";
 export default class AuthService {
   constructor(
     @Inject("userModel") private userModel,
-    @Inject("logger") private logger
+    @Inject("logger") private logger,
   ) {}
 
   /**

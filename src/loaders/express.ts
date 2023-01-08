@@ -1,3 +1,4 @@
+import Logger from "./logger";
 import routes from "@/api/index";
 import config from "@/config/config";
 import bodyParser from "body-parser";
@@ -8,8 +9,6 @@ import expressMySQLSession from "express-mysql-session";
 import session from "express-session";
 import morgan from "morgan";
 import nunjucks from "nunjucks";
-
-import Logger from "./logger";
 
 export default ({ app }: { app: express.Application }) => {
   app.set("port", config.port);
