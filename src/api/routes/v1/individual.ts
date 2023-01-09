@@ -1,16 +1,19 @@
 // TODO: isLoggedIn 미들웨어 설정
-import { Router, Request, Response, NextFunction } from "express";
-import { Container } from "typedi";
-import logger from "winston";
-
 import asyncHandler from "@/api/middlewares/asyncHandler";
 import {
   PersonalPostInputDTO,
   PersonalPostDTO,
 } from "@/interfaces/PersonalPost";
+import {
+  PersonalRollingPaperInputDTO,
+  PersonalRollingPaperDTO,
+} from "@/interfaces/PersonalRollingPaper";
 import PersonalPost from "@/models/personalPost";
 import PersonalRollingPaper from "@/models/personalRollingPaper";
 import PersonalService from "@/services/individual";
+import { Router, Request, Response, NextFunction } from "express";
+import { Container } from "typedi";
+import logger from "winston";
 
 const route = Router();
 
@@ -24,39 +27,52 @@ export default (app: Router) => {
     asyncHandler(async (req: Request, res: Response) => {
       logger.debug(req.body);
 
-      // 비즈니스 로직을 처리할 service에 req.body를 넘겨주기
-      //const paperDTO = req.body;
-      //const { paper } = await PersonalRollingPaperService.Signup(paperDTO); // TODO: PersonalRollingPaperService 만들기
+      // 비즈니스 로직을 처리할 service객체 받아오기
+      const personalServiceInstance = Container.get(PersonalService);
 
-      return res.status(201).json({ result: true });
+      // service에 req.body를 넘겨주고 생성
+      const { personalRollingPaper } =
+        await personalServiceInstance.createPersonalRollingPaper(
+          req.body as PersonalRollingPaperDTO,
+        );
+
+      return res.status(201).json({ result: personalRollingPaper });      
     }),
   );
 
-  // TODO: 의존성 주입
   // 개인 롤링페이퍼 조회
   route.get(
     "/papers/:paperId",
-    asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-      logger.debug(req.body);
-      const paperId = req.params.paperId;
-      // 페이퍼 정보 조회
-      const paper = await PersonalRollingPaper.findOne({
-        where: {
-          personal_rolling_paper_id: paperId,
-        },
-      });
-      // 포스트 전부 조회
-      const posts = await PersonalPost.findAll({
-        where: {
-          personal_rolling_paper_id: paperId,
-        },
-      });
-      return res.status(200).json(posts);
-    }),
+    asyncHandler(
+      async (req: Request<PersonalRollingPaperInputDTO>, res: Response) => {
+        logger.debug(req.params);
+
+        // 비즈니스 로직을 처리할 service객체 받아오기
+        const personalServiceInstance = Container.get(PersonalService);
+
+        // 페이퍼 정보 조회
+        const { personalRollingPaper } =
+          await personalServiceInstance.viewPersonalRollingPaper(
+            req.params as PersonalRollingPaperInputDTO,
+          );
+
+        // 포스트 전부 조회
+        const { personalPosts } = await personalServiceInstance.viewAllPosts(
+          req.params as PersonalRollingPaperInputDTO,
+        );
+        return res
+          .status(200)
+          .json({ title: personalRollingPaper.title, posts: personalPosts });
+      },
+    ),
   );
 
-  // ! GET, req 참고하세요!
-  // 개인 롤링포스트 디테일 조회
+  // 개인 롤링페이퍼 수정
+
+  // 개인 롤링페이퍼 삭제
+
+  // !GET, req 참고하세요!
+  // 개인 롤링페이퍼 포스트 디테일 조회
   route.get(
     "/posts/:postid",
 

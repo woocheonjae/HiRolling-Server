@@ -45,7 +45,7 @@ export default class PersonalRollingPaper extends Model {
   @Column(DataType.STRING(40))
   public title!: string;
 
-  @AllowNull(true)
+  @AllowNull(false)
   @Column(DataType.STRING(200))
   public export_url!: string;
 
