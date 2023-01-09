@@ -1,18 +1,18 @@
 export interface PersonalRollingPaper {
-  personal_rolling_paper_id: string;
-  user_id: string;
+  personalRollingPaperId: string;
+  userId: string;
   title: string | null;
-  export_url: string;
-  public_type: boolean;
+  exportUrl: string;
+  publicType: boolean;
 }
 
 export interface PersonalRollingPaperInputDTO {
-  personalRollingPaperId: string;
+  paperId: string;
 }
 
 export interface PersonalRollingPaperDTO {
-  user_id: string;
+  userId: string;
   title: string | null;
-  export_url: string;
-  public_type: boolean;
+  exportUrl: string;
+  publicType: boolean;
 }
