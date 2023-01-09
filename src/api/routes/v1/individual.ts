@@ -36,7 +36,7 @@ export default (app: Router) => {
           req.body as PersonalRollingPaperDTO,
         );
 
-      return res.status(201).json({ result: personalRollingPaper });
+      return res.status(201).json({ result: personalRollingPaper });      
     }),
   );
 

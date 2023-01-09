@@ -11,8 +11,9 @@ import {
   PrimaryKey,
   Table,
 } from "sequelize-typescript";
-import User from "./user";
+
 import PersonalPost from "./personalPost";
+import User from "./user";
 
 // 테이블에 대한 설정
 @Table({

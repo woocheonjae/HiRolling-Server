@@ -45,7 +45,7 @@ export default class Group extends Model {
   @Column(DataType.STRING(40))
   public group_name!: string;
 
-  @AllowNull(false)
+  @AllowNull(true)
   @Column(DataType.STRING(200))
   public invite_url!: string;
 

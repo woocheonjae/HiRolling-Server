@@ -1,3 +1,5 @@
+import { Sequelize } from "sequelize-typescript";
+
 import config from "@/config/config";
 import Group from "@/models/group";
 import GroupMember from "@/models/groupMember";
@@ -8,7 +10,6 @@ import PersonalPost from "@/models/personalPost";
 import PersonalPostAttachedImage from "@/models/personalPostAttachedImage";
 import PersonalRollingPaper from "@/models/personalRollingPaper";
 import User from "@/models/user";
-import { Sequelize } from "sequelize-typescript";
 
 const env = process.env.NODE_ENV || "development";
 const sequelizeConfig = config[env];

@@ -1,7 +1,7 @@
+import dependencyInjectorLoader from "./dependencyInjector";
 import expressLoader from "./express";
 import Logger from "./logger";
-import sequelize from "./sequelize";
-import {
+import sequelize, {
   Group,
   GroupMember,
   GroupPost,
@@ -12,7 +12,6 @@ import {
   PersonalRollingPaper,
   User,
 } from "./sequelize";
-import dependencyInjectorLoader from "./dependencyInjector";
 
 export default async ({ expressApp }) => {
   // 의존성 추가할 모델을 변수로 생성
