@@ -53,7 +53,7 @@ export default class PersonalService {
 
       const personalRollingPaper = await this.personalRollingPaperModel.findOne(
         {
-          where: { personal_rolling_paper_id: personalRollingPaperId },
+          where: { personal_rolling_paper_id: personalRollingPaperId, deleted_at: null },
         },
       );
 
