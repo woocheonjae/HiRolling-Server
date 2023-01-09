@@ -51,7 +51,7 @@ export default class PersonalService {
   ): Promise<{ personalRollingPaper: PersonalRollingPaper }> {
     try {
       const personalRollingPaperId =
-        personalRollingPaperInputDTO.personalRollingPaperId;
+        personalRollingPaperInputDTO.paperId;
 
       const personalRollingPaper = await this.personalRollingPaperModel.findOne(
         {
@@ -76,7 +76,7 @@ export default class PersonalService {
   ): Promise<{ personalPosts: PersonalPost[] }> {
     try {
       const personalRollingPaperId =
-        personalRollingPaperInputDTO.personalRollingPaperId;
+        personalRollingPaperInputDTO.paperId;
 
       const personalPosts = await this.personalPostModel.findAll({
         where: { personal_rolling_paper_id: personalRollingPaperId },
