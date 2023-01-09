@@ -15,7 +15,6 @@ import {
 } from "@/interfaces/PersonalPost";
 
 import { Model } from "sequelize-typescript";
-import { getSystemErrorMap } from "util";
 
 @Service()
 export default class PersonalService {
