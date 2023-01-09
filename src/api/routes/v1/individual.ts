@@ -42,7 +42,7 @@ export default (app: Router) => {
 
   // 개인 롤링페이퍼 조회
   route.get(
-    "/papers/:personalRollingPaperId",
+    "/papers/:paperId",
     asyncHandler(
       async (req: Request<PersonalRollingPaperInputDTO>, res: Response) => {
         logger.debug(req.params);
