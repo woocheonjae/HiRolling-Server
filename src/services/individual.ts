@@ -14,8 +14,6 @@ import {
   PersonalPostDTO,
 } from "@/interfaces/PersonalPost";
 
-import { Model } from "sequelize-typescript";
-
 @Service()
 export default class PersonalService {
   constructor(
@@ -104,7 +102,12 @@ export default class PersonalService {
     personalRollingPaperInputDTO: PersonalRollingPaperInputDTO,
   ) {
     try {
-      // TODO
+      const personalRollingPaperId = 
+        personalRollingPaperInputDTO.paperId;
+      
+      await this.personalRollingPaperModel.destroy({
+        where: { personal_rolling_paper_id: personalRollingPaperId },
+      });
     } catch (error) {
       this.logger.error(error);
       throw error;
