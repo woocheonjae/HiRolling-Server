@@ -40,6 +40,7 @@ export default (app: Router) => {
     }),
   );
 
+  // TODO: isLoggedIn 미들웨어 만들어지면 모든 api에 isLoggedIn 추가하기
   // 개인 롤링페이퍼 조회
   route.get(
     "/papers/:paperId",
@@ -70,6 +71,25 @@ export default (app: Router) => {
   // 개인 롤링페이퍼 수정
 
   // 개인 롤링페이퍼 삭제
+  route.delete(
+    "/papers/:paperId", 
+    asyncHandler(
+      async (req: Request<PersonalRollingPaperInputDTO>, res: Response) => {
+        logger.debug(req.params);
+
+        // 비즈니스 로직을 처리할 service객체 받아오기
+        const personalServiceInstance = Container.get(PersonalService);
+
+        personalServiceInstance.deletePersonalRollingPaper(
+          req.params as PersonalRollingPaperInputDTO,
+        );
+
+        return res
+          .status(200)
+          .json({ result: "personal rolling paper deleted" });
+      },
+    ),
+  );
 
   // !GET, req 참고하세요!
   // 개인 롤링페이퍼 포스트 디테일 조회
