@@ -98,7 +98,7 @@ export default (app: Router) => {
 
   // 개인 롤링페이퍼 목록 조회
   route.get(
-    "/papers/:userId/list",
+    "/papers/list/:userId",
     asyncHandler(async (req: Request<UserInputDTO>, res: Response) => {
         logger.debug(req.params);
 
