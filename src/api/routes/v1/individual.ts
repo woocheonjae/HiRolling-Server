@@ -8,8 +8,12 @@ import {
   PersonalRollingPaperInputDTO,
   PersonalRollingPaperDTO,
 } from "@/interfaces/PersonalRollingPaper";
+import { UserInputDTO } from "@/interfaces/User";
+
+// ? routes에선 model 안쓰이는데 뺄까요??
 import PersonalPost from "@/models/personalPost";
 import PersonalRollingPaper from "@/models/personalRollingPaper";
+
 import PersonalService from "@/services/individual";
 import { Router, Request, Response, NextFunction } from "express";
 import { Container } from "typedi";
@@ -69,6 +73,7 @@ export default (app: Router) => {
   );
 
   // 개인 롤링페이퍼 수정
+  // TODO
 
   // 개인 롤링페이퍼 삭제
   route.delete(
@@ -89,6 +94,23 @@ export default (app: Router) => {
           .json({ result: "personal rolling paper deleted" });
       },
     ),
+  );
+
+  // 개인 롤링페이퍼 목록 조회
+  route.get(
+    "/papers/list/:userId",
+    asyncHandler(async (req: Request<UserInputDTO>, res: Response) => {
+        logger.debug(req.params);
+
+        // 비즈니스 로직을 처리할 service객체 받아오기
+        const personalServiceInstance = Container.get(PersonalService);
+
+        const { personalRollingPapers } = await personalServiceInstance.viewListPersonalRollingPaper(
+          req.params as UserInputDTO,
+        );
+
+        return res.status(200).json({ result: personalRollingPapers });
+      }),
   );
 
   // !GET, req 참고하세요!

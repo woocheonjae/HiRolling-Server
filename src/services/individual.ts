@@ -14,6 +14,10 @@ import {
   PersonalPostDTO,
 } from "@/interfaces/PersonalPost";
 
+import {
+  UserInputDTO,
+} from "@/interfaces/User";
+
 @Service()
 export default class PersonalService {
   constructor(
@@ -92,11 +96,8 @@ export default class PersonalService {
   }
 
   // 개인 롤링페이퍼 수정해주는 함수
-  // ? 아마 title, public_type만 수정할수있을듯
-  public async updatePersonalRollingPaper() {
-    // TODO
-  }
-
+  // TODO
+  
   // 개인 롤링페이퍼 삭제해주는 함수
   public async deletePersonalRollingPaper(
     personalRollingPaperInputDTO: PersonalRollingPaperInputDTO,
@@ -108,6 +109,28 @@ export default class PersonalService {
       await this.personalRollingPaperModel.destroy({
         where: { personal_rolling_paper_id: personalRollingPaperId },
       });
+    } catch (error) {
+      this.logger.error(error);
+      throw error;
+    }
+  }
+
+  // 개인 롤링페이퍼 목록 조회해주는 함수
+  public async viewListPersonalRollingPaper(
+    userInputDTO: UserInputDTO,
+  ): Promise<{ personalRollingPapers: PersonalRollingPaper[] }> {
+    try {
+      const userId = userInputDTO.userId;
+
+      const personalRollingPapers = await this.personalRollingPaperModel.findAll({
+        where: { user_id: userId },
+      });
+
+      if(!personalRollingPapers) {
+        throw new Error("This user does not have any papers"); 
+      }
+
+      return { personalRollingPapers };
     } catch (error) {
       this.logger.error(error);
       throw error;
