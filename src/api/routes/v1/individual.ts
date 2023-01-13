@@ -167,7 +167,7 @@ export default (app: Router) => {
       const { personalPost } = await personalServiceInstance.deletePersonalPost(
         req.body as PersonalPostInputDTO,
       );
-      // 수정한 포스트 결과
+      // 삭제한 포스트 결과
       return res.status(200).json({ result: personalPost });
     }),
   );
