@@ -40,7 +40,7 @@ export default (app: Router) => {
           req.body as PersonalRollingPaperDTO,
         );
 
-      return res.status(201).json({ result: true });
+     return res.status(201).json({ result: personalRollingPaper });   
     }),
   );
 
