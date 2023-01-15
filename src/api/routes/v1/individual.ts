@@ -40,7 +40,7 @@ export default (app: Router) => {
           req.body as PersonalRollingPaperDTO,
         );
 
-      return res.status(201).json({ result: personalRollingPaper });      
+     return res.status(201).json({ result: personalRollingPaper });   
     }),
   );
 
@@ -57,12 +57,12 @@ export default (app: Router) => {
 
         // 페이퍼 정보 조회
         const { personalRollingPaper } =
-          await personalServiceInstance.viewPersonalRollingPaper(
+          await personalServiceInstance.getPersonalRollingPaper(
             req.params as PersonalRollingPaperInputDTO,
           );
 
         // 포스트 전부 조회
-        const { personalPosts } = await personalServiceInstance.viewAllPosts(
+        const { personalPosts } = await personalServiceInstance.getAllPersonalPosts(
           req.params as PersonalRollingPaperInputDTO,
         );
         return res
@@ -105,7 +105,7 @@ export default (app: Router) => {
         // 비즈니스 로직을 처리할 service객체 받아오기
         const personalServiceInstance = Container.get(PersonalService);
 
-        const { personalRollingPapers } = await personalServiceInstance.viewListPersonalRollingPaper(
+        const { personalRollingPapers } = await personalServiceInstance.getListPersonalRollingPaper(
           req.params as UserInputDTO,
         );
 
@@ -113,15 +113,14 @@ export default (app: Router) => {
       }),
   );
 
-  // !GET, req 참고하세요!
   // 개인 롤링페이퍼 포스트 디테일 조회
   route.get(
-    "/posts/:postid",
+    "/posts/:personalPostId",
 
     asyncHandler(async (req: Request<PersonalPostInputDTO>, res: Response) => {
       logger.debug(req.params);
       const personalServiceInstance = Container.get(PersonalService);
-      const { personalPost } = await personalServiceInstance.viewDetailPost(
+      const { personalPost } = await personalServiceInstance.getDetailPost(
         req.params as PersonalPostInputDTO,
       );
       return res.status(200).json({ result: personalPost });
@@ -134,11 +133,42 @@ export default (app: Router) => {
     asyncHandler(async (req: Request, res: Response) => {
       logger.debug(req.body);
       const personalServiceInstance = Container.get(PersonalService);
-      const { personalPost } = await personalServiceInstance.createPost(
+      const { personalPost } = await personalServiceInstance.createPersonalPost(
         req.body as PersonalPostDTO,
       );
 
       return res.status(201).json({ result: personalPost });
+    }),
+  );
+
+  // ? 수정 화면에서는 전에 포스트 정보 불러오기인데 그건 url 뭐일까여? 
+  // 개인 포스트 수정
+  route.put(
+    "/posts",
+    asyncHandler(async (req: Request, res: Response) => {
+      logger.debug(req.body);
+      const personalServiceInstance = Container.get(PersonalService);
+      const { personalPost } = await personalServiceInstance.updatePersonalPost(
+        req.body as PersonalPostInputDTO,
+        req.body as PersonalPostDTO,
+      );
+      // ! 수정한 후 디테일 뷰로 이동!
+      // 수정한 포스트 결과
+      return res.status(201).json({ result: personalPost });
+    }),
+  );
+
+  // 개인 포스트 삭제
+  route.delete(
+    "/posts",
+    asyncHandler(async (req: Request, res: Response) => {
+      logger.debug(req.body);
+      const personalServiceInstance = Container.get(PersonalService);
+      const { personalPost } = await personalServiceInstance.deletePersonalPost(
+        req.body as PersonalPostInputDTO,
+      );
+      // 삭제한 포스트 결과
+      return res.status(200).json({ result: personalPost });
     }),
   );
 };

@@ -48,7 +48,7 @@ export default class PersonalService {
 
   // 개인 롤링페이퍼 조회해주는 함수
   // 롤링페이퍼 id로 찾는다.
-  public async viewPersonalRollingPaper(
+  public async getPersonalRollingPaper(
     personalRollingPaperInputDTO: PersonalRollingPaperInputDTO,
   ): Promise<{ personalRollingPaper: PersonalRollingPaper }> {
     try {
@@ -73,7 +73,7 @@ export default class PersonalService {
   }
 
   // 포스트 전부 조회해주는 함수
-  public async viewAllPosts(
+  public async getAllPersonalPosts(
     personalRollingPaperInputDTO: PersonalRollingPaperInputDTO,
   ): Promise<{ personalPosts: PersonalPost[] }> {
     try {
@@ -81,7 +81,7 @@ export default class PersonalService {
         personalRollingPaperInputDTO.paperId;
 
       const personalPosts = await this.personalPostModel.findAll({
-        where: { personal_rolling_paper_id: personalRollingPaperId },
+        where: { personal_rolling_paper_id: personalRollingPaperId , deleted_at:null},
       });
 
       if (!personalPosts) {
@@ -116,7 +116,7 @@ export default class PersonalService {
   }
 
   // 개인 롤링페이퍼 목록 조회해주는 함수
-  public async viewListPersonalRollingPaper(
+  public async getListPersonalRollingPaper(
     userInputDTO: UserInputDTO,
   ): Promise<{ personalRollingPapers: PersonalRollingPaper[] }> {
     try {
@@ -138,12 +138,12 @@ export default class PersonalService {
   }
 
   // 포스트 아이디(UUID)를 DB에서 찾은 후 JSON으로 전달해주는 함수
-  public async viewDetailPost(
+  public async getDetailPost(
     personalPostInputDTO: PersonalPostInputDTO,
   ): Promise<{ personalPost: PersonalPost }> {
     try {
       const personalPostId = personalPostInputDTO.personalPostId;
-
+     
       const personalPost = await this.personalPostModel.findOne({
         where: { personal_post_id: personalPostId },
       });
@@ -159,8 +159,31 @@ export default class PersonalService {
     }
   }
 
+  // TODO: 삭제, 유저, 작성자 확인, 비밀번호 
+  public async deletePersonalPost(
+    personalPostInputDTO: PersonalPostInputDTO,
+  ): Promise<{ personalPost: PersonalPost }> {
+    try {
+      const personalPostId = personalPostInputDTO.personalPostId;
+
+      const personalPost = await this.personalPostModel.destroy({
+        where: { personal_post_id: personalPostId },
+      });
+
+      if (!personalPost) {
+        throw new Error("Post does not exist");
+      }
+
+      return { personalPost };
+    } catch (error) {
+      this.logger.error(error);
+      throw error;
+    }
+  }
+
+  // TODO: 페이퍼 주인은 안돼, 로그인 or 비로그인 확인 
   // 포스트 생성해주는 함수
-  public async createPost(
+  public async createPersonalPost(
     personalPostDTO: PersonalPostDTO,
   ): Promise<{ personalPost: PersonalPost }> {
     try {
@@ -168,6 +191,38 @@ export default class PersonalService {
 
       if (!personalPost) {
         throw new Error("Unable to create post");
+      }
+
+      return { personalPost };
+    } catch (error) {
+      this.logger.error(error);
+      throw error;
+    }
+  }
+
+  // TODO: 롤링페이퍼 주인인지 작성자인지 확인 + 작성자라면 로그인인지 비로그인인지 확인 > 이건 server에서, 로그인 로직 완료 후 수정하기
+  // 포스트 수정 함수
+  public async updatePersonalPost(
+    personalPostInputDTO: PersonalPostInputDTO,
+    personalPostDTO: PersonalPostDTO,
+  ): Promise<{ personalPost: PersonalPost }> {
+    try {
+      const personalPostId = personalPostInputDTO.personalPostId;
+
+     // ! 수정한 사람 누구인지 확인 로직 필요, 비로그인 유저면 비밀번호 확인해줘야해! 
+     // 이건 로그인 회원
+      const personalPost = await this.personalPostModel.update(
+        {
+          content:personalPostDTO.content,
+          post_color:personalPostDTO.post_color,
+          anonymous_type: personalPostDTO.anonymous_type,
+        },
+        { where:  { personal_post_id: personalPostId } },
+      );
+      // 비로그인 회원은 필요한 거- 비밀번호 확인
+
+      if (!personalPost) {
+        throw new Error("Unable to update post");
       }
 
       return { personalPost };
