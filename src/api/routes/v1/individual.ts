@@ -10,10 +10,6 @@ import {
 } from "@/interfaces/PersonalRollingPaper";
 import { UserInputDTO } from "@/interfaces/User";
 
-// ? routes에선 model 안쓰이는데 뺄까요??
-import PersonalPost from "@/models/personalPost";
-import PersonalRollingPaper from "@/models/personalRollingPaper";
-
 import PersonalService from "@/services/individual";
 import { Router, Request, Response, NextFunction } from "express";
 import { Container } from "typedi";
