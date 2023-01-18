@@ -74,8 +74,8 @@ export default class GroupService {
       const groupUadatedPostResult= await this.groupPostModel.update(
         {
           content:groupPostDTO.content,
-          post_color:groupPostDTO.post_color,
-          anonymous_type: groupPostDTO.anonymous_type,
+          post_color:groupPostDTO.postColor,
+          anonymous_type: groupPostDTO.anonymousType,
         },
         { where:  { group_post_id: groupPostId } },
       );
