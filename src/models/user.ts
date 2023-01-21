@@ -64,6 +64,10 @@ export default class User extends Model {
   @Column(DataType.ENUM(...Object.values(LoginType)))
   public login_type!: LoginType;
 
+  @AllowNull(true)
+  @Column(DataType.STRING(255))
+  public refresh_token!: string;
+
   /*
    * 관계에 대한 설정
    */

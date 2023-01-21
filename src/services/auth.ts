@@ -3,7 +3,8 @@ import { Model } from "sequelize-typescript";
 import { Service, Inject } from "typedi";
 
 import config from "@/config/config";
-import { User, UserInputDTO } from "@/interfaces/User";
+import { User, UserInputDTO, TokenDTO } from "@/interfaces/User";
+import { createAccessToken, createRefreshToken } from "@/utils/jwtUtil";
 
 @Service()
 export default class AuthService {
@@ -14,7 +15,7 @@ export default class AuthService {
 
   /**
    * 테스트 함수
-   * body로 요청 받은 유저 아이디(UUID)를 DB에서 찾은 후 JSON으로 전달해주는 함수수
+   * body로 요청 받은 유저 아이디(UUID)를 DB에서 찾은 후 JSON으로 전달해주는 함수
    */
   public async test(userInputDTO: UserInputDTO): Promise<{ user: User }> {
     try {
@@ -50,4 +51,28 @@ export default class AuthService {
       throw error;
     }
   }
+
+  public async createJwt(user): Promise<{ token: TokenDTO }> {
+    try {
+      const accessToken = createAccessToken(user);
+      const refreshToken = createRefreshToken(user);
+
+      const token = { accessToken, refreshToken };
+
+      return { token };
+    } catch (error) {
+      this.logger.error(error);
+      throw error;
+    }
+  }
+
+  /**
+   * TODO 1: DB에 refresh token 저장하는 메서드 구현
+   *
+   * TODO 2: 토큰 재발급 메서드 구현
+   ** access token이 만료된 경우,
+   ** refresh token을 이용해 access token 재발급
+   ** 이후 refresh token도 재발급
+   ** RTR(Refresh Token Rotation) -> refresh token은 일회성
+   */
 }

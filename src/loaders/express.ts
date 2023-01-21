@@ -1,6 +1,3 @@
-import Logger from "./logger";
-import routes from "@/api/index";
-import config from "@/config/config";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -9,6 +6,13 @@ import expressMySQLSession from "express-mysql-session";
 import session from "express-session";
 import morgan from "morgan";
 import nunjucks from "nunjucks";
+import passport from "passport";
+
+import Logger from "./logger";
+
+import routes from "@/api/index";
+import config from "@/config/config";
+import passportConfig from "@/services/passport";
 
 export default ({ app }: { app: express.Application }) => {
   app.set("port", config.port);
@@ -26,6 +30,9 @@ export default ({ app }: { app: express.Application }) => {
   // Useful if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
   // It shows the real origin IP in the heroku or Cloudwatch logs
   app.enable("trust proxy");
+
+  // Enable Cross Origin Resource Sharing to all origins by default
+  app.use(cors());
 
   // View Template
   app.set("view engine", "html");
@@ -49,12 +56,22 @@ export default ({ app }: { app: express.Application }) => {
       secret: config.cookieSecret,
       resave: false,
       saveUninitialized: true,
-      store: new MySQLStore(config.expressSession as any), // TODO: any 고쳐야 함
+      store: new MySQLStore(config.expressSession as any), // TO DO: any 고쳐야 함
+      cookie: {
+        httpOnly: true,
+        secure: false,
+      },
     }),
   );
 
-  // Enable Cross Origin Resource Sharing to all origins by default
-  app.use(cors());
+  /**
+   *! express-session에 의존하기 때문에 세션 설정 코드보다 아래에 위치
+   * passport.session()이 실행되면 세션 쿠키 정보를 바탕으로
+   * /services/passport/index.ts의 deserializeUser 함수가 실행된다.
+   */
+  passportConfig(); // passport 설정
+  app.use(passport.initialize()); // 요청 객체에 passport 설정 사용
+  // app.use(passport.session()); // req.session 객체에 passport 정보를 추가로 저장
 
   // POST 방식의 파라미터 읽기
   app.use(bodyParser.json()); // to support JSON-encoded bodies
