@@ -4,11 +4,7 @@ import { Container } from "typedi";
 import { Logger } from "winston";
 
 import asyncHandler from "@/api/middlewares/asyncHandler";
-import {
-  verifyAccessToken,
-  isLoggedIn,
-  isNotLoggedIn,
-} from "@/api/middlewares/authMiddleware";
+import { verifyAccessToken } from "@/api/middlewares/authMiddleware";
 import { UserInputDTO } from "@/interfaces/User";
 import AuthService from "@/services/auth";
 
@@ -63,9 +59,15 @@ export default (app: Router) => {
     asyncHandler(async (req: Request, res: Response) => {
       const user = req.user;
 
+      // Auth Service 로직 가져오기
       const authServiceInstance = Container.get(AuthService);
+
+      // JWT 발급(access token, refresh token)
       const { token } = await authServiceInstance.createJwt(user);
       logger.debug({ label: "JWT", message: token });
+
+      // DB에 refresh token 업데이트
+      await authServiceInstance.updateRefreshToken(user, token.refreshToken);
 
       res.cookie("refreshToken", token.refreshToken, {
         httpOnly: true,

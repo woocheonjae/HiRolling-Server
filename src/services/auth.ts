@@ -52,6 +52,7 @@ export default class AuthService {
     }
   }
 
+  // JWT(access token, refresh token) 발급 메서드
   public async createJwt(user): Promise<{ token: TokenDTO }> {
     try {
       const accessToken = createAccessToken(user);
@@ -66,13 +67,44 @@ export default class AuthService {
     }
   }
 
+  // DB에 refresh token 저장하는 메서드
+  public async updateRefreshToken(user, refreshToken) {
+    try {
+      const userRecord = await this.userModel.update(
+        {
+          refresh_token: refreshToken,
+        },
+        {
+          where: { user_id: user.user_id },
+        },
+      );
+
+      if (!userRecord) {
+        throw new Error("Unable to update refresh token");
+      }
+    } catch (error) {
+      this.logger.error(error);
+      throw error;
+    }
+  }
+
   /**
-   * TODO 1: DB에 refresh token 저장하는 메서드 구현
-   *
    * TODO 2: 토큰 재발급 메서드 구현
    ** access token이 만료된 경우,
    ** refresh token을 이용해 access token 재발급
    ** 이후 refresh token도 재발급
    ** RTR(Refresh Token Rotation) -> refresh token은 일회성
    */
+  public async reCreateJwt(
+    accessToken,
+    refreshToken,
+  ): Promise<{ token: TokenDTO }> {
+    try {
+      const token = { accessToken, refreshToken };
+      return { token };
+    } catch (error) {
+      this.logger.error(error);
+      throw error;
+    }
+  }
 }
