@@ -70,7 +70,7 @@ export default class AuthService {
   // DB에 refresh token 저장하는 메서드
   public async updateRefreshToken(user, refreshToken) {
     try {
-      const userRecord = await this.userModel.update(
+      const hasRefreshToken = await this.userModel.update(
         {
           refresh_token: refreshToken,
         },
@@ -79,7 +79,9 @@ export default class AuthService {
         },
       );
 
-      if (!userRecord) {
+      const canUpdateRefreshToken = hasRefreshToken[0];
+
+      if (!canUpdateRefreshToken) {
         throw new Error("Unable to update refresh token");
       }
     } catch (error) {
