@@ -1,4 +1,3 @@
-import { Model } from "sequelize-typescript";
 import { Service, Inject } from "typedi";
 
 import config from "@/config/config";

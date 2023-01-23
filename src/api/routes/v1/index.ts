@@ -2,6 +2,7 @@ import { Router } from "express";
 
 import auth from "./auth";
 import individual from "./individual";
+import group from "./group";
 
 /*
  * API Version: v1
@@ -15,6 +16,7 @@ export default () => {
 
   auth(app);
   individual(app);
+  group(app);
 
   return app;
 };

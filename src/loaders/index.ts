@@ -25,6 +25,11 @@ export default async ({ expressApp }) => {
     model: PersonalPost,
   };
 
+  const groupPostModel = {
+    name: "groupPostModel",
+    model: GroupPost,
+  };
+
   const personalRollingPaperModel = {
     name: "personalRollingPaperModel",
     model: PersonalRollingPaper,
@@ -32,7 +37,7 @@ export default async ({ expressApp }) => {
 
   // 위에서 생성한 변수를 배열 안에 대입
   await dependencyInjectorLoader({
-    models: [userModel, personalPostModel, personalRollingPaperModel],
+    models: [userModel, personalPostModel, personalRollingPaperModel, groupPostModel],
   });
   Logger.info("🏗️  Dependency Injector loaded");
 
