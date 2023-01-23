@@ -129,8 +129,7 @@ export default class GroupService {
         },
         { where:  { group_post_id: groupPostId } },
       );
-      // 비로그인 회원은 필요한 거- 비밀번호 확인
-      console.log(groupUpdatedEmojiResult);
+     
       if (groupUpdatedEmojiResult[0]=== 0) {
         throw new Error("Unable to update emoji for a post");
       }
