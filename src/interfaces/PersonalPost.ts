@@ -5,15 +5,17 @@ enum AnonymousType {
   가족 = "가족",
 }
 
+// TODO 이모지도 enum으로 
+
 export interface PersonalPost {
-  personal_post_id: string;
-  personal_rolling_paper_id: string;
-  user_id: string | null;
+  personalPostId: string;
+  personalRollingPaperId: string;
+  userId: string | null;
   content: string | null;
-  anonymous_type: AnonymousType | null;
-  post_color: string;
-  emoji_type: string | null;
-  non_member_password: string | null;
+  anonymousType: AnonymousType | null;
+  postColor: string;
+  emojiType: string | null;
+  nonMemberPassword: string | null;
 }
 
 export interface PersonalPostInputDTO {
@@ -21,10 +23,14 @@ export interface PersonalPostInputDTO {
 }
 
 export interface PersonalPostDTO {
-  personal_rolling_paper_id: string;
-  user_id: string | null;
+  personalRollingPaperId: string;
+  userId: string | null;
   content: string | null;
-  anonymous_type: AnonymousType | null;
-  post_color: string;
-  non_member_password: string | null;
+  anonymousType: AnonymousType | null;
+  postColor: string;
+  nonMemberPassword: string | null;
+}
+
+export interface PersonalPostEmojiDTO {
+  emojiType: string | null;
 }

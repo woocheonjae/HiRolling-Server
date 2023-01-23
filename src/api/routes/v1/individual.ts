@@ -3,6 +3,7 @@ import asyncHandler from "@/api/middlewares/asyncHandler";
 import {
   PersonalPostInputDTO,
   PersonalPostDTO,
+  PersonalPostEmojiDTO,
 } from "@/interfaces/PersonalPost";
 import {
   PersonalRollingPaperInputDTO,
@@ -187,4 +188,28 @@ export default (app: Router) => {
       return res.status(200).json({ result: personalPost });
     }),
   );
+
+
+  // 개인 포스트 이모지 수정
+  route.put(
+    "/posts/emoji",
+    asyncHandler(async (req: Request, res: Response) => {
+      logger.debug(req.body);
+      const personalServiceInstance = Container.get(PersonalService);
+      const { personalUpdatedEmojiResult} = await personalServiceInstance.updateEmojiForPost(
+        req.body as PersonalPostInputDTO,
+        req.body as PersonalPostEmojiDTO,
+      );
+
+      // 이모지 수정을 성공했다면 디테일 뷰 
+      const { personalPost } = await personalServiceInstance.getDetailPost(
+        req.body as PersonalPostInputDTO,
+      );
+      // 수정한 포스트 결과
+      return res.status(201).json({ result: personalUpdatedEmojiResult , post: personalPost});
+    }),
+  );
 };
+
+};
+

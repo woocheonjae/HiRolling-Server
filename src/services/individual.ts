@@ -11,6 +11,7 @@ import {
   PersonalPost,
   PersonalPostInputDTO,
   PersonalPostDTO,
+  PersonalPostEmojiDTO,
 } from "@/interfaces/PersonalPost";
 
 import {
@@ -168,7 +169,6 @@ export default class PersonalService {
   ): Promise<{ personalPost: PersonalPost }> {
     try {
       const personalPostId = personalPostInputDTO.personalPostId;
-     
       const personalPost = await this.personalPostModel.findOne({
         where: { personal_post_id: personalPostId },
       });
@@ -239,8 +239,8 @@ export default class PersonalService {
       const personalPost = await this.personalPostModel.update(
         {
           content:personalPostDTO.content,
-          post_color:personalPostDTO.post_color,
-          anonymous_type: personalPostDTO.anonymous_type,
+          post_color:personalPostDTO.postColor,
+          anonymous_type: personalPostDTO.anonymousType,
         },
         { where:  { personal_post_id: personalPostId } },
       );
@@ -251,6 +251,30 @@ export default class PersonalService {
       }
 
       return { personalPost };
+    } catch (error) {
+      this.logger.error(error);
+      throw error;
+    }
+  }
+
+  // TODO: 롤링페이퍼 주인만 이모지 수정 가능! 
+  public async updateEmojiForPost(
+    personalPostInputDTO: PersonalPostInputDTO,
+    personalPostEmojiDTO: PersonalPostEmojiDTO,
+  ): Promise<{ personalUpdatedEmojiResult: PersonalPost}> {
+    try {
+      const personalPostId = personalPostInputDTO.personalPostId;
+
+      const personalUpdatedEmojiResult= await this.personalPostModel.update(
+        {
+          emoji_type : personalPostEmojiDTO.emojiType,
+        },
+        { where:  { personal_post_id: personalPostId } },
+      );
+      if (personalUpdatedEmojiResult[0]=== 0) {
+        throw new Error("Unable to update emoji for a post");
+      }
+      return { personalUpdatedEmojiResult};
     } catch (error) {
       this.logger.error(error);
       throw error;

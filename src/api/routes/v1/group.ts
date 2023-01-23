@@ -2,7 +2,10 @@
 import asyncHandler from "@/api/middlewares/asyncHandler";
 import {
   GroupPostDTO,
-  GroupPostInputDTO
+  GroupPostInputDTO,
+  GroupPostEmojiDTO,
+
+
 } from "@/interfaces/GroupPost";
 
 import GroupService from "@/services/group";
@@ -49,13 +52,18 @@ export default (app: Router) => {
     asyncHandler(async (req: Request, res: Response) => {
       logger.debug(req.body);
       const groupServiceInstance = Container.get(GroupService);
-      const { groupUadatedPostResult} = await groupServiceInstance.updateGroupPost(
+
+      const { groupUpdatedPostResult} = await groupServiceInstance.updateGroupPost(
         req.body as GroupPostInputDTO,
         req.body as GroupPostDTO,
       );
-      // ! 수정한 후 디테일 뷰로 이동!
+     // 포스트 수정을 성공했다면 디테일 뷰 
+      const { groupPostDetail} = await groupServiceInstance.getDetailGroupPost(
+        req.body as GroupPostInputDTO,
+      );
       // 수정한 포스트 결과
-      return res.status(201).json({ result: groupUadatedPostResult });
+      return res.status(201).json({ result: groupUpdatedPostResult, post: groupPostDetail});
+
     }),
   );
 
@@ -72,4 +80,27 @@ export default (app: Router) => {
       return res.status(200).json({ result: groupDeletedPostResult });
     }),
   );
+
+
+  // 그룹 포스트 이모지 수정
+  route.put(
+    "/posts/emoji",
+    asyncHandler(async (req: Request, res: Response) => {
+      logger.debug(req.body);
+      const groupServiceInstance = Container.get(GroupService);
+      const { groupUpdatedEmojiResult} = await groupServiceInstance.updateEmojiForPost(
+        req.body as GroupPostInputDTO,
+        req.body as GroupPostEmojiDTO,
+      );
+      
+      const { groupPostDetail} = await groupServiceInstance.getDetailGroupPost(
+        req.body as GroupPostInputDTO,
+      );
+
+      // ! 수정한 후 디테일 뷰로 이동!
+      // 수정한 포스트 결과
+      return res.status(201).json({ result: groupUpdatedEmojiResult , post: groupPostDetail});
+    }),
+  );
+
 };
