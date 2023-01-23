@@ -96,7 +96,33 @@ export default class PersonalService {
   }
 
   // 개인 롤링페이퍼 수정해주는 함수
-  // TODO
+  public async updatePersonalRollingPaper(
+    personalRollingPaperInputDTO: PersonalRollingPaperInputDTO,
+    personalRollingPaperDTO: PersonalRollingPaperDTO,
+  ): Promise<{ updatedPersonalRollingPaper: PersonalRollingPaper }> {
+    try {
+      const personalRollingPaperId =
+        personalRollingPaperInputDTO.paperId;
+
+      const updatedPersonalRollingPaper = await this.personalRollingPaperModel.update(
+        {
+          title: personalRollingPaperDTO.title,
+          public_type: personalRollingPaperDTO.publicType,
+        },
+        { where: { personal_rolling_paper_id: personalRollingPaperId } },
+      );
+
+      if(!updatedPersonalRollingPaper) {
+        throw new Error("Unable to update paper");
+      }
+
+      return { updatedPersonalRollingPaper };
+    } catch (error) {
+      this.logger.error(error);
+      throw error;
+    }
+  }
+
   
   // 개인 롤링페이퍼 삭제해주는 함수
   public async deletePersonalRollingPaper(

@@ -8,6 +8,7 @@ import {
   GroupPostInputDTO,
   GroupPostDTO,
   GroupPostEmojiDTO,
+
 } from "@/interfaces/GroupPost";
 import { group } from "console";
 
@@ -66,13 +67,17 @@ export default class GroupService {
   public async updateGroupPost(
     groupPostInputDTO: GroupPostInputDTO,
     groupPostDTO: GroupPostDTO,
+
   ): Promise<{ groupUpdatedPostResult: GroupPost }> {
+
     try {
       const groupPostId = groupPostInputDTO.groupPostId;
 
      // ! 수정한 사람 누구인지 확인 로직 필요, 비로그인 유저면 비밀번호 확인해줘야해! 
      // 이건 로그인 회원
+
       const groupUpdatedPostResult= await this.groupPostModel.update(
+
         {
           content:groupPostDTO.content,
           post_color:groupPostDTO.postColor,
@@ -82,11 +87,13 @@ export default class GroupService {
       );
       // 비로그인 회원은 필요한 거- 비밀번호 확인
 
+
       if (groupUpdatedPostResult[0]===0) {
         throw new Error("Unable to update post");
       }
 
       return { groupUpdatedPostResult };
+
     } catch (error) {
       this.logger.error(error);
       throw error;
@@ -115,6 +122,7 @@ export default class GroupService {
     }
   }
 
+
 // TODO: 롤링페이퍼 주인만 이모지 수정 가능! 
   public async updateEmojiForPost(
     groupPostInputDTO: GroupPostInputDTO,
@@ -140,4 +148,5 @@ export default class GroupService {
       throw error;
     }
   }
+
 }

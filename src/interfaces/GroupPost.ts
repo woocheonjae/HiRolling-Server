@@ -30,3 +30,4 @@ export interface GroupPostDTO {
 export interface GroupPostEmojiDTO {
   emojiType: string | null;
 }
+
