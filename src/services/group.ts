@@ -7,6 +7,7 @@ import {
   GroupPost,
   GroupPostInputDTO,
   GroupPostDTO,
+  GroupPostEmojiDTO,
 } from "@/interfaces/GroupPost";
 import { group } from "console";
 
@@ -65,27 +66,27 @@ export default class GroupService {
   public async updateGroupPost(
     groupPostInputDTO: GroupPostInputDTO,
     groupPostDTO: GroupPostDTO,
-  ): Promise<{ groupUadatedPostResult: GroupPost }> {
+  ): Promise<{ groupUpdatedPostResult: GroupPost }> {
     try {
       const groupPostId = groupPostInputDTO.groupPostId;
 
      // ! 수정한 사람 누구인지 확인 로직 필요, 비로그인 유저면 비밀번호 확인해줘야해! 
      // 이건 로그인 회원
-      const groupUadatedPostResult= await this.groupPostModel.update(
+      const groupUpdatedPostResult= await this.groupPostModel.update(
         {
           content:groupPostDTO.content,
-          post_color:groupPostDTO.post_color,
-          anonymous_type: groupPostDTO.anonymous_type,
+          post_color:groupPostDTO.postColor,
+          anonymous_type: groupPostDTO.anonymousType,
         },
         { where:  { group_post_id: groupPostId } },
       );
       // 비로그인 회원은 필요한 거- 비밀번호 확인
 
-      if (!groupUadatedPostResult) {
+      if (groupUpdatedPostResult[0]===0) {
         throw new Error("Unable to update post");
       }
 
-      return { groupUadatedPostResult };
+      return { groupUpdatedPostResult };
     } catch (error) {
       this.logger.error(error);
       throw error;
@@ -108,6 +109,33 @@ export default class GroupService {
       }
 
       return { groupDeletedPostResult };
+    } catch (error) {
+      this.logger.error(error);
+      throw error;
+    }
+  }
+
+// TODO: 롤링페이퍼 주인만 이모지 수정 가능! 
+  public async updateEmojiForPost(
+    groupPostInputDTO: GroupPostInputDTO,
+    groupPostEmojiDTO: GroupPostEmojiDTO,
+  ): Promise<{ groupUpdatedEmojiResult: GroupPost}> {
+    try {
+      const groupPostId = groupPostInputDTO.groupPostId;
+
+      const groupUpdatedEmojiResult= await this.groupPostModel.update(
+        {
+          emoji_type : groupPostEmojiDTO.emojiType,
+        },
+        { where:  { group_post_id: groupPostId } },
+      );
+      // 비로그인 회원은 필요한 거- 비밀번호 확인
+      console.log(groupUpdatedEmojiResult);
+      if (groupUpdatedEmojiResult[0]=== 0) {
+        throw new Error("Unable to update emoji for a post");
+      }
+
+      return { groupUpdatedEmojiResult};
     } catch (error) {
       this.logger.error(error);
       throw error;
