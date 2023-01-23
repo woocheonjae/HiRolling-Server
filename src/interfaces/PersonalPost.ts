@@ -5,6 +5,8 @@ enum AnonymousType {
   가족 = "가족",
 }
 
+// TODO 이모지도 enum으로 
+
 export interface PersonalPost {
   personalPostId: string;
   personalRollingPaperId: string;
@@ -27,4 +29,8 @@ export interface PersonalPostDTO {
   anonymousType: AnonymousType | null;
   postColor: string;
   nonMemberPassword: string | null;
+}
+
+export interface PersonalPostEmojiDTO {
+  emojiType: string | null;
 }

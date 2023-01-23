@@ -85,7 +85,7 @@ export default (app: Router) => {
       const groupServiceInstance = Container.get(GroupService);
       const { groupUpdatedEmojiResult} = await groupServiceInstance.updateEmojiForPost(
         req.body as GroupPostInputDTO,
-        req.body as   GroupPostEmojiDTO,
+        req.body as GroupPostEmojiDTO,
       );
 
       // 이모지 수정을 성공했다면 디테일 뷰 
