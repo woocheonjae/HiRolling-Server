@@ -27,6 +27,8 @@ export interface GroupPostDTO {
   postColor: string;
 }
 
+
 export interface GroupPostEmojiDTO {
   emojiType: string | null;
 }
+

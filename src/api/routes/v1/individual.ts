@@ -69,7 +69,27 @@ export default (app: Router) => {
   );
 
   // 개인 롤링페이퍼 수정
-  // TODO
+  route.put(
+    "/papers",
+    asyncHandler(
+      async (req: Request, res: Response) => {
+        logger.debug(req.body);
+
+        // 비즈니스 로직을 처리할 service객체 받아오기
+        const personalServiceInstance = Container.get(PersonalService);
+
+        const { updatedPersonalRollingPaper } = await personalServiceInstance.updatePersonalRollingPaper(
+          req.body as PersonalRollingPaperInputDTO,
+          req.body as PersonalRollingPaperDTO,
+        );
+
+        return res
+          .status(201)
+          .json({ result: "Rolling Paper updated", title: updatedPersonalRollingPaper.title, public_type: updatedPersonalRollingPaper.publicType});
+      },
+    ),
+  );
+
 
   // 개인 롤링페이퍼 삭제
   route.delete(

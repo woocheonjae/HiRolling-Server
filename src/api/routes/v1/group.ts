@@ -2,8 +2,10 @@
 import asyncHandler from "@/api/middlewares/asyncHandler";
 import {
   GroupPostDTO,
+
   GroupPostInputDTO,
   GroupPostEmojiDTO,
+
 } from "@/interfaces/GroupPost";
 
 import GroupService from "@/services/group";
@@ -50,6 +52,7 @@ export default (app: Router) => {
     asyncHandler(async (req: Request, res: Response) => {
       logger.debug(req.body);
       const groupServiceInstance = Container.get(GroupService);
+
       const { groupUpdatedPostResult} = await groupServiceInstance.updateGroupPost(
         req.body as GroupPostInputDTO,
         req.body as GroupPostDTO,
@@ -60,6 +63,7 @@ export default (app: Router) => {
       );
       // 수정한 포스트 결과
       return res.status(201).json({ result: groupUpdatedPostResult, post: groupPostDetail});
+
     }),
   );
 
@@ -98,4 +102,5 @@ export default (app: Router) => {
       return res.status(201).json({ result: groupUpdatedEmojiResult , post: groupPostDetail});
     }),
   );
+
 };
