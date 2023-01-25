@@ -18,7 +18,7 @@ const route = Router();
 export default (app: Router) => {
   app.use("/groups", route);
 
-  // 개인 롤링페이퍼 포스트 생성
+  //  롤링페이퍼 포스트 생성
   route.post(
     "/posts",
     asyncHandler(async (req: Request, res: Response) => {
