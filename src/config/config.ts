@@ -79,4 +79,11 @@ export default {
   api: {
     prefix: "/api",
   },
+
+  // JWT
+  jwtSecret: env.JWT_SECRET,
+
+  // 카카오 로그인
+  kakaoId: env.KAKAO_REST_API_KEY,
+  kakaoRedirectUri: env.KAKAO_REDIRECT_URI,
 };

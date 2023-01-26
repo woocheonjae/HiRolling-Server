@@ -15,4 +15,11 @@ export interface User {
 
 export interface UserInputDTO {
   userId: string;
+  email: string;
+  name: string;
+}
+
+export interface TokenDTO {
+  accessToken: string;
+  refreshToken: string;
 }
