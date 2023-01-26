@@ -55,9 +55,11 @@ export default class AuthService {
   // JWT(access token, refresh token) 발급 메서드
   public async createJwt(user): Promise<{ token: TokenDTO }> {
     try {
+      // access token 발급
       const accessToken = createAccessToken(user);
+      // refresh token 발급
       const refreshToken = createRefreshToken(user);
-
+      // token 변수에 access token과 refresh token을 객체로 담아 저장
       const token = { accessToken, refreshToken };
 
       return { token };
@@ -70,7 +72,8 @@ export default class AuthService {
   // DB에 refresh token 저장하는 메서드
   public async updateRefreshToken(user, refreshToken) {
     try {
-      const hasRefreshToken = await this.userModel.update(
+      // 매개변수로 받은 user의 id를 기준으로 refresh token을 저장
+      const updateRefreshToken = await this.userModel.update(
         {
           refresh_token: refreshToken,
         },
@@ -79,10 +82,44 @@ export default class AuthService {
         },
       );
 
-      const canUpdateRefreshToken = hasRefreshToken[0];
+      /*
+       * updateRefreshToken의 리턴값: [영향받은 행의 개수]
+       * update에 성공: [1]
+       * update에 실패: [0]
+       */
+      const canUpdateRefreshToken = updateRefreshToken[0];
 
+      // canUpdateRefreshToken의 값이 0(false)이면, 에러 발생
       if (!canUpdateRefreshToken) {
         throw new Error("Unable to update refresh token");
+      }
+    } catch (error) {
+      this.logger.error(error);
+      throw error;
+    }
+  }
+
+  // DB에서 refresh token 삭제하는 메서드
+  public async deleteRefreshToken(userId) {
+    try {
+      // 매개변수로 받은 userId를 기준으로 refresh token을 삭제
+      const deleteRefreshToken = await this.userModel.update(
+        {
+          refresh_token: null,
+        },
+        { where: { user_id: userId } },
+      );
+
+      /*
+       * deleteRefreshToken의 리턴값: [영향받은 행의 개수]
+       * update에 성공: [1]
+       * update에 실패: [0]
+       */
+      const canDeleteRefreshToken = deleteRefreshToken[0];
+
+      // canDeleteRefreshToken의 값이 0(false)이면, 에러 발생
+      if (!canDeleteRefreshToken) {
+        throw new Error("Unable to delete refresh token");
       }
     } catch (error) {
       this.logger.error(error);

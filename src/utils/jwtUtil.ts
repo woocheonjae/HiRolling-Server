@@ -31,11 +31,11 @@ export const createRefreshToken = (user) => {
 };
 
 // access token 검증
-export const verifyToken = (token) => {
+export const verifyAccessToken = (accessToken) => {
   let decoded = null;
   try {
     // 토큰 확인
-    decoded = jwt.verify(token, secret);
+    decoded = jwt.verify(accessToken, secret);
 
     return {
       success: true,
@@ -52,3 +52,6 @@ export const verifyToken = (token) => {
 };
 
 // TODO: refresh token 검증 함수 구현
+export const verifyRefreshToken = (token) => {
+  return null;
+};

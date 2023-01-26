@@ -4,7 +4,7 @@ import { Container } from "typedi";
 import { Logger } from "winston";
 
 import asyncHandler from "@/api/middlewares/asyncHandler";
-import { verifyAccessToken } from "@/api/middlewares/authMiddleware";
+import { verifyToken } from "@/api/middlewares/authMiddleware";
 import { UserInputDTO } from "@/interfaces/User";
 import AuthService from "@/services/auth";
 
@@ -16,7 +16,7 @@ export default (app: Router) => {
 
   route.post(
     "/kakaotest",
-    verifyAccessToken,
+    verifyToken,
     asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
       logger.debug(req.body);
       console.log("🚀 ~ file: auth.ts:17 ~ asyncHandler ~ body", req.body);
@@ -28,18 +28,26 @@ export default (app: Router) => {
     }),
   );
 
-  /**
-   ** 로그아웃 처리
-   *
-   * TODO: DB에서 refresh token 삭제
-   */
+  // 로그아웃 처리
   route.get(
     "/logout",
-    verifyAccessToken,
-    asyncHandler(async (req: Request, res: Response) => {
-      res.cookie("refreshToken", "", {
+    verifyToken,
+    asyncHandler(async (req, res) => {
+      // userId 변수에 user의 id 정보 저장
+      const userId = req.userId;
+      logger.warn({ userId: userId });
+
+      // Auth Service 로직 가져오기
+      const authServiceInstance = Container.get(AuthService);
+
+      // DB에서 refresh token 삭제
+      await authServiceInstance.deleteRefreshToken(userId);
+
+      // 쿠키에 담은 refresh token 만료 처리
+      res.cookie("refreshToken", null, {
         maxAge: 0,
       });
+
       return res.status(200).json({
         success: true,
       });
@@ -57,6 +65,7 @@ export default (app: Router) => {
     "/kakao/callback",
     passport.authenticate("kakao", { session: false, failureRedirect: "/" }),
     asyncHandler(async (req: Request, res: Response) => {
+      // user 변수에 user 정보 저장
       const user = req.user;
 
       // Auth Service 로직 가져오기
