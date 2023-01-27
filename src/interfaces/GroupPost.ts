@@ -26,3 +26,9 @@ export interface GroupPostDTO {
   anonymousType: AnonymousType | null;
   postColor: string;
 }
+
+
+export interface GroupPostEmojiDTO {
+  emojiType: string | null;
+}
+
